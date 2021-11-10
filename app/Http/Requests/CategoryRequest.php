@@ -28,6 +28,7 @@ class CategoryRequest extends FormRequest
             "parent_id" => ["required"],
             "description" => ["required"],
             "short_description" => [],
+            "image" => [],
             "status" => ['required'],
         ];
     }

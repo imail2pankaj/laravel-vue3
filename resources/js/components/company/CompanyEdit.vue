@@ -88,13 +88,14 @@ export default {
       e.preventDefault();
       const formData = new FormData();
 
-      for (const i of Object.keys(form.value)) {
+      for (const i of Object.keys(company.value)) {
         if(i === 'logo') {
           formData.append('logo', file.value);
         } else {
-          formData.append(i, form.value[i]);
+          formData.append(i, company.value[i]);
         }
       }
+      formData.append('_method', 'patch');
 
       await saveCompany(props.id, formData);
     }

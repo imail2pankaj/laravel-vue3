@@ -24,7 +24,10 @@
         <tbody class="text-gray-900 text-sm font-light">
           <template v-for="(item, index) in categories" :key="index">
             <tr class="border-b border-gray-200 hover:bg-gray-100">
-              <td class="py-2 px-2 text-left whitespace-nowrap"><img :src="'/uploads/category/' + item.image" alt="" class="w-20 rounded "></td>
+              <td class="py-2 px-2 text-left whitespace-nowrap">
+                <img v-if="item.image" :src="'/uploads/category/' + item.image" class="w-20 rounded ">
+                <img v-if="!item.image" src="/images/no-image.png" class="w-20 rounded ">
+                </td>
               <td class="py-2 px-2 text-left whitespace-nowrap">{{ item.name }}</td>
               <td class="py-2 px-2 text-left whitespace-nowrap">{{ item.parent_category_name ? item.parent_category_name :"None" }}</td>
               <td class="py-2 px-2 text-center whitespace-nowrap">
@@ -35,7 +38,7 @@
                   <router-link to="" class="no-underline w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                       <img src="/images/view-icon.svg" alt="View" />
                   </router-link>
-                  <router-link :to="{name:'company.edit', params: {id:item.id}}"  class="no-underline w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                  <router-link :to="{name:'category.edit', params: {id:item.id}}"  class="no-underline w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                       <img src="/images/edit-icon.svg" alt="Edit" />
                   </router-link>
                   <button type="button" @click="destroyCompany(item.id)" class="no-underline w-4 mr-2 transform hover:text-purple-500 hover:scale-110">

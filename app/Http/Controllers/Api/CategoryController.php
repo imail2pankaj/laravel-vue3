@@ -17,12 +17,14 @@ class CategoryController extends Controller
 
     public function store(CategoryRequest $request)
     {
-        // $image = $request->file('image');
-        // $input['image'] = time().'.'.$image->getClientOriginalExtension();
-        
-        // $destinationPath = public_path('/uploads/category');
-        // $image->move($destinationPath, $input['image']);
-        // $request->image = $destinationPath;
+        if($request->hasFile('image')){
+            $image = $request->file('image');
+            $input['image'] = time().'.'.$image->getClientOriginalExtension();
+            
+            $destinationPath = public_path('/uploads/category');
+            $image->move($destinationPath, $input['image']);
+            $request->image = $input['image'];
+        }
         $category = Category::create($request->validated());
         return response()->json($category);
     }
@@ -34,25 +36,27 @@ class CategoryController extends Controller
 
     public function update(CategoryRequest $request, Category $category)
     {
-        $image = $request->file('image');
-        $input['image'] = time().'.'.$image->getClientOriginalExtension();
-        
-        $destinationPath = public_path('/uploads/category');
-        $image->move($destinationPath, $input['image']);
-        $request->image = $destinationPath;
-
-        $category->update($request->validated());
+        $data = $request->all();
+        if($request->hasFile('image')){
+            $image = $request->file('image');
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+            
+            $destinationPath = public_path('/uploads/category');
+            $image->move($destinationPath, $imageName);
+            $data['image'] = $imageName;
+            if($category->image && file_exists(public_path('/uploads/category/' . $category->image))) {
+                unlink(public_path('/uploads/category/' . $category->image));
+            }
+        }
+        $category->update($data);
         return $category;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Category $category)
     {
+        if($category->image && file_exists(public_path('/uploads/category/' . $category->image))) {
+            unlink(public_path('/uploads/category/' . $category->image));
+        }        
         $category->delete();
         return response()->noContent();
     }

@@ -2,6 +2,7 @@ import AnotherComponent from './components/AnotherComponent.vue';
 import Dashboard from './components/Dashboard.vue';
 import Category from './components/category/CategoryIndex.vue';
 import CategoryCreate from './components/category/CategoryCreate.vue';
+import CategoryEdit from './components/category/CategoryEdit.vue';
 import Product from './components/product/ProductIndex.vue';
 import Company from './components/company/CompanyIndex.vue';
 import CompanyCreate from './components/company/CompanyCreate.vue';
@@ -29,7 +30,8 @@ export default {
         },
         {
             path: '/app/categories',
-            component: Category,
+            component: () =>
+                import ('./components/category/CategoryIndex'),
             name: 'category.index',
             meta: {
                 title: 'Category',
@@ -38,10 +40,22 @@ export default {
         },
         {
             path: '/app/categories/create',
-            component: CategoryCreate,
+            component: () =>
+                import ('./components/category/CategoryCreate'),
             name: 'category.create',
             meta: {
                 title: 'Category Create',
+                primary: false
+            },
+        },
+        {
+            path: '/app/categories/:id/edit',
+            component: () =>
+                import ('./components/category/CategoryEdit'),
+            name: 'category.edit',
+            props: true,
+            meta: {
+                title: 'Category Edit',
                 primary: false
             },
         },
@@ -56,7 +70,8 @@ export default {
         },
         {
             path: '/app/company',
-            component: Company,
+            component: () =>
+                import ('./components/company/CompanyIndex'),
             name: 'company',
             meta: {
                 title: 'Company',
@@ -65,7 +80,8 @@ export default {
         },
         {
             path: '/app/company/create',
-            component: CompanyCreate,
+            component: () =>
+                import ('./components/company/CompanyCreate'),
             name: 'company.create',
             meta: {
                 title: 'Company',
@@ -74,7 +90,8 @@ export default {
         },
         {
             path: '/app/company/:id/edit',
-            component: CompanyEdit,
+            component: () =>
+                import ('./components/company/CompanyEdit'),
             name: 'company.edit',
             props: true,
             meta: {

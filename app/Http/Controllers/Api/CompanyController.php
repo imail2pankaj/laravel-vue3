@@ -22,7 +22,7 @@ class CompanyController extends Controller
         
         $destinationPath = public_path('/uploads');
         $image->move($destinationPath, $input['logo']);
-        $request->logo = $destinationPath;
+        $request->logo = $input['logo'];
         $company = Company::create($request->validated());
         return response()->json($company);
     }
@@ -39,7 +39,7 @@ class CompanyController extends Controller
         
         $destinationPath = public_path('/uploads');
         $image->move($destinationPath, $input['logo']);
-        $request->logo = $destinationPath;
+        $request->logo = $input['logo'];
 
         $company->update($request->validated());
         return $company;

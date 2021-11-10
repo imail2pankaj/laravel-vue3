@@ -54,7 +54,7 @@ export default function useCompanies() {
         errors.value['address'] = '';
         errors.value['website'] = '';
         try {
-            await axios.put('/api/companies/' + id, {...data });
+            await axios.post('/api/companies/' + id, data);
             await router.push({ name: 'company' });
         } catch (error) {
             if (error.response.status === 422) {
