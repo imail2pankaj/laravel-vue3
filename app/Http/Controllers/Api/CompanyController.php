@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
-
     public function index()
     {
         return response()->json(Company::all());
@@ -17,13 +16,18 @@ class CompanyController extends Controller
 
     public function store(CompanyRequest $request)
     {
-        $image = $request->file('logo');
-        $input['logo'] = time().'.'.$image->getClientOriginalExtension();
+        $data = $request->all();
+
+        if ($request->hasFile('logo')) {
+            $image = $request->file('logo');
+            $imageName = time().'.'.$image->getClientOriginalExtension();
         
-        $destinationPath = public_path('/uploads');
-        $image->move($destinationPath, $input['logo']);
-        $request->logo = $input['logo'];
-        $company = Company::create($request->validated());
+            $destinationPath = public_path('/uploads/company');
+            $image->move($destinationPath, $imageName);
+            $data['logo'] = $imageName;
+        }
+        $company = Company::create($data);
+
         return response()->json($company);
     }
 
@@ -34,19 +38,29 @@ class CompanyController extends Controller
 
     public function update(CompanyRequest $request, Company $company)
     {
-        $image = $request->file('logo');
-        $input['logo'] = time().'.'.$image->getClientOriginalExtension();
-        
-        $destinationPath = public_path('/uploads');
-        $image->move($destinationPath, $input['logo']);
-        $request->logo = $input['logo'];
+        $data = $request->all();
 
-        $company->update($request->validated());
+        if ($request->hasFile('logo')) {
+            if(file_exists(public_path('/uploads/company/' . $company->logo))) {
+                unlink(public_path('/uploads/company/' . $company->logo));
+            }
+            $image = $request->file('logo');
+            $imageName = time().'.'.$image->getClientOriginalExtension();
+        
+            $destinationPath = public_path('/uploads');
+            $image->move($destinationPath, $imageName);
+            $data['logo'] = $imageName;
+        }
+
+        $company->update($data);
         return $company;
     }
 
     public function destroy(Company $company)
     {
+        if(file_exists(public_path('/uploads/company/' . $company->logo))) {
+            unlink(public_path('/uploads/company/' . $company->logo));
+        }
         $company->delete();
         return response()->noContent();
     }

@@ -20,7 +20,7 @@
             <label for="logo" class="text-sm font-medium text-gray-900 block mb-2">Company Logo</label>
             <input type="file" ref="file" v-on:change="handleFileUpload" id="logo" name="logo" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Company email" required >
             <span v-if="errors.logo">{{errors.logo}}</span>
-            <img v-if="company.logo" :src="'/uploads/' + company.logo" class="w-20" alt="">
+            <img v-if="company.logo" :src="'/uploads/company/' + company.logo" class="w-20" alt="">
         </div>
 
         <div class="mb-6">

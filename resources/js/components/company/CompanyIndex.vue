@@ -24,7 +24,7 @@
         <tbody class="text-gray-900 text-sm font-light">
           <template v-for="(item, index) in companies" :key="index">
             <tr class="border-b border-gray-200 hover:bg-gray-100">
-              <td class="py-2 px-2 text-left whitespace-nowrap"><img :src="'/uploads/' + item.logo" alt="" class="w-20 rounded "></td>
+              <td class="py-2 px-2 text-left whitespace-nowrap"><img :src="'/uploads/company/' + item.logo" alt="" class="w-20 rounded "></td>
               <td class="py-2 px-2 text-left whitespace-nowrap">{{ item.name }}</td>
               <td class="py-2 px-2 text-left whitespace-nowrap">{{ item.email }}</td>
               <td class="py-2 px-2 text-left whitespace-nowrap">{{ item.address }}</td>

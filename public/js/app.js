@@ -20914,7 +20914,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.company.logo ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("img", {
     key: 1,
-    src: '/uploads/' + $setup.company.logo,
+    src: '/uploads/company/' + $setup.company.logo,
     "class": "w-20",
     alt: ""
   }, null, 8
@@ -21120,7 +21120,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: index,
       "class": "border-b border-gray-200 hover:bg-gray-100"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("td", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
-      src: '/uploads/' + item.logo,
+      src: '/uploads/company/' + item.logo,
       alt: "",
       "class": "w-20 rounded "
     }, null, 8
