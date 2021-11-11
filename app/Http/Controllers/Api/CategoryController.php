@@ -17,15 +17,17 @@ class CategoryController extends Controller
 
     public function store(CategoryRequest $request)
     {
+        $data = $request->all();
         if($request->hasFile('image')){
             $image = $request->file('image');
-            $input['image'] = time().'.'.$image->getClientOriginalExtension();
+            $imageName = time().'.'.$image->getClientOriginalExtension();
             
             $destinationPath = public_path('/uploads/category');
-            $image->move($destinationPath, $input['image']);
-            $request->image = $input['image'];
+            $image->move($destinationPath, $imageName);
+            // $request->image = $imageName;
+            $data['image'] = $imageName;
         }
-        $category = Category::create($request->validated());
+        $category = Category::create($data);
         return response()->json($category);
     }
 
@@ -56,7 +58,7 @@ class CategoryController extends Controller
     {
         if($category->image && file_exists(public_path('/uploads/category/' . $category->image))) {
             unlink(public_path('/uploads/category/' . $category->image));
-        }        
+        }
         $category->delete();
         return response()->noContent();
     }

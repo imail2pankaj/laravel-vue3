@@ -79,15 +79,10 @@
   </transition>
 </template>
 <script>
-import { ref } from '@vue/reactivity';
-import { watch } from '@vue/runtime-core';
+import { ref } from 'vue';
 export default {
   name: "modal",
   props: {
-    itemId: {
-      type: Number,
-      required:true
-    },
     modalHeadline: {
       type: String,
       required: true,
@@ -104,11 +99,8 @@ export default {
       emit("close");
     };
     const deleteRecord = () => {
-      emit("deleteRecordEvent", itemId);
+      emit("deleteRecordEvent");
     };
-    watch(itemId, (item, prevItem) => { 
-        console.log(item, prevItem);
-    })
     return {
         close,
         deleteRecord

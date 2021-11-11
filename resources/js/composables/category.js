@@ -63,7 +63,6 @@ export default function useCategories() {
         for (const key in errors.value) {
             errors.value[key] = '';
         }
-
         try {
             await axios.post('/api/categories/' + id, data);
             await router.push({ name: 'category.index' });
@@ -76,6 +75,9 @@ export default function useCategories() {
             }
         }
     }
+    const deleteCategory = async(id) => {
+        await axios.delete('/api/categories/' + id);
+    }
     return {
         errors,
         category,
@@ -83,6 +85,7 @@ export default function useCategories() {
         getCategory,
         getCategories,
         storeCategory,
+        deleteCategory,
         updateCategory,
         categoryOptions,
         getCategoriesDropdown

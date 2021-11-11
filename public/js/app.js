@@ -18773,20 +18773,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     var _useCategories = (0,_composables_category__WEBPACK_IMPORTED_MODULE_2__.default)(),
         categories = _useCategories.categories,
-        getCategories = _useCategories.getCategories;
+        getCategories = _useCategories.getCategories,
+        deleteCategory = _useCategories.deleteCategory;
 
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(getCategories);
 
-    var destroyCategory = /*#__PURE__*/function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(id) {
+    var togglePopup = /*#__PURE__*/function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                item_id.value = id;
-                togglePopup();
+                showModal.value = !showModal.value;
 
-              case 2:
+              case 1:
               case "end":
                 return _context.stop();
             }
@@ -18794,20 +18794,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }));
 
-      return function destroyCategory(_x) {
+      return function togglePopup() {
         return _ref.apply(this, arguments);
       };
     }();
 
-    var togglePopup = /*#__PURE__*/function () {
-      var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+    var destroyCategory = /*#__PURE__*/function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(id) {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                showModal.value = !showModal.value;
+                _context2.next = 2;
+                return deleteCategory(id);
 
-              case 1:
+              case 2:
+                togglePopup();
+                _context2.next = 5;
+                return getCategories();
+
+              case 5:
               case "end":
                 return _context2.stop();
             }
@@ -18815,26 +18821,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }));
 
-      return function togglePopup() {
+      return function destroyCategory(_x) {
         return _ref2.apply(this, arguments);
       };
     }();
 
-    var deleteCustomers = function deleteCustomers(e) {
-      console.log("goodbye", e);
-      togglePopup();
-    };
-
-    (0,vue__WEBPACK_IMPORTED_MODULE_1__.watch)(item_id, function (item, prevItem) {
-      console.log(item, prevItem);
-    });
     return {
       item_id: item_id,
       showModal: showModal,
       categories: categories,
       destroyCategory: destroyCategory,
       togglePopup: togglePopup,
-      deleteCustomers: deleteCustomers
+      deleteCategory: deleteCategory
     };
   }
 });
@@ -18852,17 +18850,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _vue_reactivity__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @vue/reactivity */ "./node_modules/@vue/reactivity/dist/reactivity.esm-bundler.js");
-/* harmony import */ var _vue_runtime_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @vue/runtime-core */ "./node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js");
-
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "modal",
   props: {
-    itemId: {
-      type: Number,
-      required: true
-    },
     modalHeadline: {
       type: String,
       required: true
@@ -18875,19 +18867,16 @@ __webpack_require__.r(__webpack_exports__);
   emits: ['close', 'deleteRecordEvent'],
   setup: function setup(props, _ref) {
     var emit = _ref.emit;
-    var itemId = (0,_vue_reactivity__WEBPACK_IMPORTED_MODULE_0__.ref)(props.itemId);
+    var itemId = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(props.itemId);
 
     var close = function close() {
       emit("close");
     };
 
     var deleteRecord = function deleteRecord() {
-      emit("deleteRecordEvent", itemId);
+      emit("deleteRecordEvent");
     };
 
-    (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_1__.watch)(itemId, function (item, prevItem) {
-      console.log(item, prevItem);
-    });
     return {
       close: close,
       deleteRecord: deleteRecord
@@ -20347,7 +20336,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     , ["to"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
       type: "button",
       onClick: function onClick($event) {
-        return $setup.destroyCategory(item.id);
+        $setup.item_id = item.id;
+        $setup.togglePopup();
       },
       "class": "no-underline w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
     }, [_hoisted_18], 8
@@ -20356,20 +20346,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 128
   /* KEYED_FRAGMENT */
   ))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_confirm_delete, {
-    itemId: $setup.item_id,
-    "onUpdate:itemId": _cache[1] || (_cache[1] = function ($event) {
-      return $setup.item_id = $event;
-    }),
-    itemIdModifiers: {
-      sync: true
-    },
-    modalHeadline: "Delete customers?",
+    modalHeadline: "Delete Category?",
     deleteMessage: "Are you sure?",
-    onDeleteRecordEvent: $setup.deleteCustomers,
+    onDeleteRecordEvent: _cache[1] || (_cache[1] = function ($event) {
+      return $setup.destroyCategory($setup.item_id);
+    }),
     onClose: $setup.togglePopup
   }, null, 8
   /* PROPS */
-  , ["itemId", "onDeleteRecordEvent", "onClose"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $setup.showModal]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-show=\"showModal\" class=\"min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover\" id=\"modal-id\">\r\n    <div class=\"absolute bg-black opacity-80 inset-0 z-0\"></div>\r\n\r\n    <div class=\"w-full  max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg  bg-white \">\r\n        <div class=\"text-center p-5 flex-auto justify-center\">\r\n            <svg xmlns=\"http://www.w3.org/2000/svg\" class=\"w-4 h-4 -m-1 flex items-center text-red-500 mx-auto\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\">\r\n              <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z\"></path>\r\n            </svg>\r\n            <svg xmlns=\"http://www.w3.org/2000/svg\" class=\"w-16 h-16 flex items-center text-red-500 mx-auto\" viewBox=\"0 0 20 20\" fill=\"currentColor\">\r\n              <path fill-rule=\"evenodd\" d=\"M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z\" clip-rule=\"evenodd\" />\r\n            </svg>\r\n            <h2 class=\"text-xl font-bold py-4 \">Are you sure?</h2>\r\n            <p class=\"text-sm text-gray-500 px-8\">Do you really want to delete your account? This process cannot be undone</p>\r\n        </div>\r\n        <div class=\"p-3  mt-2 text-center space-x-4 md:block\">\r\n            <button @click=\"togglePopup\" class=\"mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100\">\r\n                Cancel\r\n            </button>\r\n            <button class=\"mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600\">Delete</button>\r\n        </div>\r\n    </div>\r\n  </div> ")], 64
+  , ["onClose"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $setup.showModal]])], 64
   /* STABLE_FRAGMENT */
   );
 }
@@ -22092,6 +22077,28 @@ function useCategories() {
     };
   }();
 
+  var deleteCategory = /*#__PURE__*/function () {
+    var _ref6 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6(id) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              _context6.next = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/api/categories/' + id);
+
+            case 2:
+            case "end":
+              return _context6.stop();
+          }
+        }
+      }, _callee6);
+    }));
+
+    return function deleteCategory(_x5) {
+      return _ref6.apply(this, arguments);
+    };
+  }();
+
   return {
     errors: errors,
     category: category,
@@ -22099,6 +22106,7 @@ function useCategories() {
     getCategory: getCategory,
     getCategories: getCategories,
     storeCategory: storeCategory,
+    deleteCategory: deleteCategory,
     updateCategory: updateCategory,
     categoryOptions: categoryOptions,
     getCategoriesDropdown: getCategoriesDropdown
