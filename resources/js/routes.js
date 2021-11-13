@@ -69,6 +69,27 @@ export default {
             },
         },
         {
+            path: '/app/products/create',
+            component: () =>
+                import ('./components/product/ProductCreate'),
+            name: 'product.create',
+            meta: {
+                title: 'Product Create',
+                primary: false
+            },
+        },
+        {
+            path: '/app/products/:id/create',
+            component: () =>
+                import ('./components/product/ProductCreate'),
+            name: 'product.edit',
+            props: true,
+            meta: {
+                title: 'Product Edit',
+                primary: false
+            },
+        },
+        {
             path: '/app/company',
             component: () =>
                 import ('./components/company/CompanyIndex'),

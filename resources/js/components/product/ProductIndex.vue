@@ -1,9 +1,9 @@
 <template>
   <div class="flex justify-between mb-2">
     <h1 class="text-2xl font-bold">
-      Categories
+      Products
     </h1>
-    <router-link :to="{name:'category.create'}" class="p-2 transition-colors duration-700 transform bg-indigo-500 hover:bg-blue-400 text-gray-100 text-sm rounded-lg focus:border-4 border-indigo-300">
+    <router-link :to="{name:'product.create'}" class="p-2 transition-colors duration-700 transform bg-indigo-500 hover:bg-blue-400 text-gray-100 text-sm rounded-lg focus:border-4 border-indigo-300">
           Add
     </router-link>
     
@@ -37,7 +37,7 @@
                   <router-link to="" class="no-underline w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                       <img src="/images/view-icon.svg" alt="View" />
                   </router-link>
-                  <router-link :to="{name:'category.edit', params: {id:item.id}}"  class="no-underline w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                  <router-link :to="{name:'product.edit', params: {id:item.id}}"  class="no-underline w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                       <img src="/images/edit-icon.svg" alt="Edit" />
                   </router-link>
                   <button type="button" @click="item_id = item.id; togglePopup();" class="no-underline w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
