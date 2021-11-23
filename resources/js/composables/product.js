@@ -1,6 +1,9 @@
 import axios from "axios";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+
 export default function useProducts() {
+    const router = useRouter();
     const errors = ref({
         name: '',
         description: '',
@@ -30,7 +33,7 @@ export default function useProducts() {
     }
 
     const getProduct = async(id) => {
-        const response = await axios.get('/api/products' + id);
+        const response = await axios.get('/api/products/' + id);
         product.value = response.data;
     }
 
@@ -45,7 +48,7 @@ export default function useProducts() {
         }
         try {
             await axios.post('/api/products', data);
-            await getProducts();
+            await router.push({ name: 'product.index' });
         } catch (error) {
             if (error.response.code === 422) {
                 const errorResponse = error.response.data.errors;
@@ -63,7 +66,7 @@ export default function useProducts() {
         }
         try {
             await axios.post('/api/products/' + id, data);
-            await getProducts();
+            await router.push({ name: "product.index" })
         } catch (error) {
             if (error.response.code === 422) {
                 const errorResponse = error.response.data.errors;
@@ -76,7 +79,7 @@ export default function useProducts() {
     }
 
     const deleteProduct = async(id) => {
-        await axios.delete('/api/products' + id);
+        await axios.delete('/api/products/' + id);
         await getProducts();
     }
 

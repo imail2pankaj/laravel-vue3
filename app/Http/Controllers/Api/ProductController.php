@@ -17,7 +17,16 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
-        return Product::create($request->validated());
+        $data = $request->all();
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path("uploads/product");
+            $image->move($destinationPath, $imageName);
+
+            $data['image'] = $imageName;
+        }
+        return Product::create($data);
     }
 
     public function show(Product $product)
@@ -27,12 +36,29 @@ class ProductController extends Controller
 
     public function update(ProductRequest $request, Product $product)
     {
-        $product->update($request->validated());
+        $data = $request->all();
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+
+            $destinationPath = public_path('uploads/product/');
+            $image->move($destinationPath, $imageName);
+
+            $data['image'] = $imageName;
+
+            if($product->image && file_exists($destinationPath . $product->image)) {
+                unlink($destinationPath . $product->image);
+            }
+        }
+        $product->update($data);
         return $product;
     }
 
     public function destroy(Product $product)
     {
+        if ($product->image && file_exists(public_path("uploads/product/" . $product->image)))  {
+            unlink(public_path("uploads/product/" . $product->image));
+        }
         $product->delete();
         return response()->noContent();
     }

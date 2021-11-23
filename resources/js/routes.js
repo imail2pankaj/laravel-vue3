@@ -79,9 +79,9 @@ export default {
             },
         },
         {
-            path: '/app/products/:id/create',
+            path: '/app/products/:id/edit',
             component: () =>
-                import ('./components/product/ProductCreate'),
+                import ('./components/product/ProductEdit'),
             name: 'product.edit',
             props: true,
             meta: {

@@ -19240,7 +19240,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var _common_Status__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../common/Status */ "./resources/js/components/common/Status.vue");
-/* harmony import */ var _composables_product__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../composables/product */ "./resources/js/composables/product.js");
+/* harmony import */ var _common_ConfirmDelete_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../common/ConfirmDelete.vue */ "./resources/js/components/common/ConfirmDelete.vue");
+/* harmony import */ var _composables_product__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../composables/product */ "./resources/js/composables/product.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -19250,15 +19251,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    Status: _common_Status__WEBPACK_IMPORTED_MODULE_2__.default
+    Status: _common_Status__WEBPACK_IMPORTED_MODULE_2__.default,
+    ConfirmDelete: _common_ConfirmDelete_vue__WEBPACK_IMPORTED_MODULE_3__.default
   },
   setup: function setup(props) {
-    var _useProducts = (0,_composables_product__WEBPACK_IMPORTED_MODULE_3__.default)(),
+    var _useProducts = (0,_composables_product__WEBPACK_IMPORTED_MODULE_4__.default)(),
         products = _useProducts.products,
-        getProducts = _useProducts.getProducts;
+        getProducts = _useProducts.getProducts,
+        deleteProduct = _useProducts.deleteProduct;
 
+    var showModal = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
+    var item_id = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(0);
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
@@ -19274,8 +19280,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }
       }, _callee);
     })));
+
+    var destroyProduct = /*#__PURE__*/function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(itemId) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return deleteProduct(itemId);
+
+              case 2:
+                togglePopup();
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }));
+
+      return function destroyProduct(_x) {
+        return _ref2.apply(this, arguments);
+      };
+    }();
+
+    var togglePopup = function togglePopup() {
+      showModal.value = !showModal.value;
+    };
+
     return {
-      products: products
+      item_id: item_id,
+      products: products,
+      showModal: showModal,
+      togglePopup: togglePopup,
+      destroyProduct: destroyProduct
     };
   }
 });
@@ -21339,6 +21379,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   var _component_Status = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Status");
 
+  var _component_confirm_delete = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("confirm-delete");
+
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: {
       name: 'product.create'
@@ -21401,9 +21443,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     , ["to"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
       type: "button",
       onClick: function onClick($event) {
-        _ctx.item_id = item.id;
-
-        _ctx.togglePopup();
+        $setup.item_id = item.id;
+        $setup.togglePopup();
       },
       "class": "no-underline w-4 mr-2 transform hover:text-purple-500 hover:scale-110"
     }, [_hoisted_18], 8
@@ -21411,7 +21452,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     , ["onClick"])])])]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))])])])])], 64
+  ))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_confirm_delete, {
+    modalHeadline: "Delete Product?",
+    deleteMessage: "Are you sure?",
+    onDeleteRecordEvent: _cache[1] || (_cache[1] = function ($event) {
+      return $setup.destroyProduct($setup.item_id);
+    }),
+    onClose: $setup.togglePopup
+  }, null, 8
+  /* PROPS */
+  , ["onClose"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $setup.showModal]])], 64
   /* STABLE_FRAGMENT */
   );
 }
@@ -22588,6 +22638,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -22596,7 +22647,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
 function useProducts() {
+  var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_3__.useRouter)();
   var errors = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)({
     name: '',
     description: '',
@@ -22655,7 +22708,7 @@ function useProducts() {
           switch (_context2.prev = _context2.next) {
             case 0:
               _context2.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/products' + id);
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().get('/api/products/' + id);
 
             case 2:
               response = _context2.sent;
@@ -22719,7 +22772,9 @@ function useProducts() {
 
             case 4:
               _context4.next = 6;
-              return getProducts();
+              return router.push({
+                name: 'product.index'
+              });
 
             case 6:
               _context4.next = 11;
@@ -22768,7 +22823,9 @@ function useProducts() {
 
             case 4:
               _context5.next = 6;
-              return getProducts();
+              return router.push({
+                name: "product.index"
+              });
 
             case 6:
               _context5.next = 11;
@@ -22806,7 +22863,7 @@ function useProducts() {
           switch (_context6.prev = _context6.next) {
             case 0:
               _context6.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/api/products' + id);
+              return axios__WEBPACK_IMPORTED_MODULE_1___default().delete('/api/products/' + id);
 
             case 2:
               _context6.next = 4;
@@ -22939,9 +22996,9 @@ __webpack_require__.r(__webpack_exports__);
       primary: false
     }
   }, {
-    path: '/app/products/:id/create',
+    path: '/app/products/:id/edit',
     component: function component() {
-      return __webpack_require__.e(/*! import() */ "resources_js_components_product_ProductCreate_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/product/ProductCreate */ "./resources/js/components/product/ProductCreate.vue"));
+      return __webpack_require__.e(/*! import() */ "resources_js_components_product_ProductEdit_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/product/ProductEdit */ "./resources/js/components/product/ProductEdit.vue"));
     },
     name: 'product.edit',
     props: true,
@@ -47138,7 +47195,7 @@ var index = {
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if (chunkId === "resources_js_components_product_ProductCreate_vue") return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_product_ProductCreate_vue":1,"resources_js_components_product_ProductEdit_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

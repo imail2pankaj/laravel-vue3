@@ -52,28 +52,45 @@
 
     </div>
   </div>
+  <confirm-delete v-show="showModal" modalHeadline="Delete Product?" deleteMessage="Are you sure?" @deleteRecordEvent="destroyProduct(item_id)" @close="togglePopup" ></confirm-delete>
 </template>
 
 
 <script>
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import Status from '../common/Status';
+import ConfirmDelete from '../common/ConfirmDelete.vue';
 import useProducts from "../../composables/product";
 
+
 export default {
-    components: {
-        Status
-    },
-    setup(props) {
-        const { products, getProducts} = useProducts();
+  components: {
+    Status,
+    ConfirmDelete
+  },
+  setup(props) {
+    const { products, getProducts, deleteProduct} = useProducts();
+    const showModal = ref(false);
+    const item_id = ref(0);
 
-        onMounted(async () => {
-            await getProducts();
-        })
+    onMounted(async () => {
+      await getProducts();
+    })
 
-        return {
-            products,
-        }
-    },
+    const destroyProduct = async (itemId) => {
+      await deleteProduct(itemId);
+      togglePopup();
+    }
+    const togglePopup = () => {
+      showModal.value = !showModal.value;
+    }
+    return {
+      item_id,
+      products,
+      showModal,
+      togglePopup,
+      destroyProduct
+    }
+  },
 }
 </script>

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
@@ -22,5 +23,14 @@ class Product extends Model
             return Category::find($this->attributes['category_id'])->name;
         }
         return null;
+    }
+
+    
+    protected static function boot() {
+        parent::boot();
+
+        static::creating(function ($category) {
+            $category->slug = Str::slug($category->name);
+        });
     }
 }
